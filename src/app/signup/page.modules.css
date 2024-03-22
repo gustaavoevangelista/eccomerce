@@ -62,3 +62,7 @@ button:hover{
 .formTitle p {
     font-size: 24px;
 }
+
+.errorMessage{
+    color: #ff0000;
+}
