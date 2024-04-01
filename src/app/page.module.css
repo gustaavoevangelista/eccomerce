@@ -3,3 +3,13 @@
   flex-direction: column;
   min-height: 100vh;
 }
+
+.sessionInfoOk{
+  margin-top: 30px;
+  color: red;
+}
+
+.sessionInfoNotOk{
+  margin-top: 30px;
+  color: red;
+}

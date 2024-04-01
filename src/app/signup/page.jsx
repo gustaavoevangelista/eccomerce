@@ -3,27 +3,33 @@
 import React from 'react';
 import './page.modules.css';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginRequestSchema } from '../validation';
+import { signupRequestSchema } from '../validation';
 import { useForm } from 'react-hook-form';
+import { createUser } from '../api/user/dbFunctions/db';
+import Link from 'next/link';
 
-export default function Login() {
+
+export default function Signup() {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors, isValid, isSubmitting },
 	} = useForm({
-		resolver: yupResolver(loginRequestSchema),
+		resolver: yupResolver(signupRequestSchema)
 	});
 
-	const onSubmit = (data) => {
+	const formSubmit = async (data) => {
 		console.table(data);
+
+		createUser(data.email, data.password)
+		
 	};
 
 	return (
 		<div className='container'>
-			<form onSubmit={handleSubmit(onSubmit)}>
+			<form onSubmit={handleSubmit(formSubmit)}>
 				<div className='formTitle'>
-					<p>Enter your email to continue</p>
+					<p>Create an account</p>
 				</div>
 				<div>
 					<label htmlFor='email'>Email</label>
@@ -47,10 +53,25 @@ export default function Login() {
 						</span>
 					)}
 				</div>
+				<div>
+					<label htmlFor='confirmPassword'>Confirm password</label>
+					<input
+						type='password'
+						name='confirmPassword'
+						{...register('confirmPassword')}
+					/>
+					{errors && (
+						<span className='errorMessage'>
+							{errors.confirmPassword?.message}
+						</span>
+					)}
+				</div>
 				<div className='submitButton'>
-					<button type='submit'>Login</button>
+					<button type='submit'>Create Account</button>
 				</div>
 			</form>
+
+			<div><Link href='..'>Back</Link></div>
 		</div>
 	);
 }
