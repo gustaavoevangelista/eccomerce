@@ -6,18 +6,6 @@ export const prisma = new PrismaClient({
 	]
 });
 
-// export async function createUser(email, password) {
-// 	const user = await prisma.user.create({
-// 		data: {
-// 			email:"gustavo@mail.pt",
-// 			password:"password",
-// 		},
-// 	});
-// 	console.log('Created user:', user);
-// }
-
-// createUser()
-// 	.catch((e) => {console.error(e)});
 	
 // import mysql from 'mysql'
 
