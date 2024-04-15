@@ -6,10 +6,11 @@ import { prisma } from '@/db';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {
-	const session = await getServerSession(authOptions);
+	const sessionData = await getServerSession(authOptions);
+	
 	// const users = await prisma.user.findMany(); //testing  if the db is working
 
-	if(!session) {
+	if(!sessionData) {
 		redirect('/api/auth/signin');
 	}
 
@@ -26,21 +27,21 @@ export default async function Home() {
 					))}
 				</ul> */}
 				<div>
-					{session ? (
+					{sessionData ? (
 						<Link
 							href='/api/auth/signout?callbackUrl=/'
-							className={styles.sessionInfoNotOk}>
-							You are logged in as {session.user?.email} click
+							className={styles.sessionInfoOk}>
+							You are logged in as {sessionData.session.user.email} click
 							here to signout
 						</Link>
 					) : (
 						<Link
 							href='/api/auth/signin'
-							className={styles.sessionInfoOk}>
+							className={styles.sessionInfoNotOk}>
 							You are not logged in! Click here to login
 						</Link>
 					)}
-					<pre>{JSON.stringify(session, null, 2)}</pre>
+					{/* <pre>{JSON.stringify(session, null, 2)}</pre> */}
 				</div>
 			</main>
 		</>

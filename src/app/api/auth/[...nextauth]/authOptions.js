@@ -39,9 +39,9 @@ export const authOptions = {
 	},
 
 	callbacks: {
-		async jwt({ token, user }) {
+		async jwt({ token, user}) {
 			if (user) {
-				token.email = user.email
+				token.user = user.user
 
 			}
 			return token;

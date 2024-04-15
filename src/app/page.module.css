@@ -6,10 +6,12 @@
 
 .sessionInfoOk{
   margin-top: 30px;
-  color: red;
+  color: green;
+  font-weight: bold;
 }
 
 .sessionInfoNotOk{
   margin-top: 30px;
   color: red;
+  font-weight: bold;
 }
