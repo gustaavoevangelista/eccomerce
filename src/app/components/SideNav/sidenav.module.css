@@ -1,0 +1,21 @@
+.sideNav {
+    background: #858383;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 12rem;
+    height: 100vh;
+    padding: 1rem;
+
+}
+
+.sideNavLink:hover,
+.sideNavLink:focus-visible,
+.sideNavLinkActive
+{   
+    font-weight: bold;
+    color: #000;
+}
