@@ -11,5 +11,5 @@ export function SideNav({ children }) {
 export function SideNavLink({ ...props }) {
 	const pathName = usePathname();
 
-	return <Link {...props} className={(styles.sideNavLink , pathName === props.href && styles.sideNavLinkActive)} ></Link>;
+	return <Link {...props} className={(pathName === props.href ? styles.sideNavLinkActive : styles.sideNavLink )}></Link>;
 }

@@ -1,11 +1,15 @@
-import Link from "next/link";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../api/auth/[...nextauth]/authOptions';
+import AdminCard from '../components/AdminCard/adminCard'
 
-export default function Admin() {
-  return (
-    <>
-        <h1>Admin Page</h1>
-        <Link href="/">click here to home page</Link>
-    </>
+export default async function Admin() {
+	const sessionData = await getServerSession(authOptions);
 
-  )
+	return (
+		<>
+			<h1>Welcome {sessionData.session.user.email}</h1>
+			<AdminCard/>
+			
+		</>
+	);
 }
