@@ -2,8 +2,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]/authOptions';
 import AdminCard from '../components/AdminCard/adminCard';
 import styles from './page.module.css';
-import { prisma } from '@/db';
 import { formatCurrency, formatNumber } from '../lib/formatters';
+import prisma from '@/db';
 
 async function getOrderData() {
 	const data = await prisma.order.aggregate({
@@ -11,10 +11,16 @@ async function getOrderData() {
 		_sum: { pricePaidInCents: true },
 	});
 
+	await wait(2000)
+
 	return {
 		totalAmount: (data._sum.pricePaidInCents || 0) / 100, //display amount in euros,
 		totalOrders: data._count,
 	};
+}
+
+function wait (duration) {
+	return new Promise(resolve => setTimeout(resolve, duration));
 }
 
 export default async function Admin() {
