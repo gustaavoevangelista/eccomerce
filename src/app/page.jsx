@@ -2,7 +2,7 @@ import { getServerSession } from 'next-auth';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { authOptions } from './api/auth/[...nextauth]/authOptions';
-import { prisma } from '@/db';
+// import { prisma } from '@/db';
 import { redirect } from 'next/navigation';
 
 export default async function Home() {

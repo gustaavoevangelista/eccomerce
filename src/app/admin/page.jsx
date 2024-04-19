@@ -11,7 +11,7 @@ async function getOrderData() {
 		_sum: { pricePaidInCents: true },
 	});
 
-	await wait(2000)
+	await wait(1000) // give time to db load
 
 	return {
 		totalAmount: (data._sum.pricePaidInCents || 0) / 100, //display amount in euros,
