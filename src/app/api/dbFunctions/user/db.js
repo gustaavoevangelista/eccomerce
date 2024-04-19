@@ -1,5 +1,5 @@
 'use server';
-import { prisma } from "@/db";
+import { prisma } from '@/db';
 // import bcrypt from 'bcryptjs';
 
 // export async function createUser(email, password) {
@@ -19,19 +19,19 @@ import { prisma } from "@/db";
 // 	console.error("Error creating user----------------------------------------------", e);
 // });
 
+export async function findUser(email) {
+	try {
+		const user = await prisma.user.findUnique({
+			where: {
+				email: email,
+			},
+		});
+		console.log('Found user:', user);
+		return user;
+	} catch (error) {
+		console.error('Error finding user:', error);
+		return null;
+	}
+}
 
-export async function findUser(email){
-try {
-	const user = await prisma.user.findUnique({
-		where: {
-			email: email,
-		},
-	});
-	console.log('Found user:', user);
-	return user;
-} catch (error) {
-	console.error('Error finding user:', error);
-	return null;
-}
-	
-}
+

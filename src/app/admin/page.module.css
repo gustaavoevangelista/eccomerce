@@ -1,3 +1,9 @@
 .adminPage{
-    margin: 1rem;
+    margin: 3rem;
+}
+
+.cards{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }

@@ -1,6 +1,10 @@
 import React from 'react'
 import { SideNav, SideNavLink } from '../components/SideNav/sidenav'
 
+//dont cache this page because it has dynamic content
+//and the internet connection usually is good
+export const dynamic = "force-dynamic"
+
 export default function AdminLayout({children}) {
   return (
 		<div style={{display: "flex"}}>

@@ -5,7 +5,7 @@ import './page.modules.css';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signupRequestSchema } from '../validation';
 import { useForm } from 'react-hook-form';
-import { createUser } from '../api/user/dbFunctions/db';
+import { createUser } from '../api/dbFunctions/user/db';
 import Link from 'next/link';
 
 
