@@ -1,6 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { findUser } from '../../dbFunctions/user/db';
-import { prisma } from '@/db';
+import  prisma  from '@/db';
 
 export const authOptions = {
 	providers: [

@@ -1,5 +1,5 @@
 'use server';
-import { prisma } from '@/db';
+import  prisma  from '@/db';
 // import bcrypt from 'bcryptjs';
 
 // export async function createUser(email, password) {
