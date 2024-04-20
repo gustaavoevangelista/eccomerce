@@ -12,6 +12,7 @@ export default function AdminLayout({children}) {
                 <SideNavLink href="/admin">Dashboard</SideNavLink>
                 <SideNavLink href="/admin/storeDetails">Store details</SideNavLink>
                 <SideNavLink href="/admin/plan">Plan</SideNavLink>
+                <SideNavLink href="/admin/products">Products</SideNavLink>
                 <SideNavLink href="/admin/payment">Payment</SideNavLink>
                 <SideNavLink href="/admin/shipping">Shipping</SideNavLink>
             </SideNav>
