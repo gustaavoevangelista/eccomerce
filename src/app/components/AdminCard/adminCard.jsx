@@ -9,11 +9,11 @@ export default function AdminCard(props) {
 			<div
 				className={
 					styles.cardBody
-				}>{`Total orders: ${props.subtitle}`}</div>
+				}>{props.subtitle}</div>
 			<div
 				className={
 					styles.cardBody
-				}>{`Total amount: ${props.body}`}</div>
+				}>{props.body}</div>
 		</div>
 	);
 }

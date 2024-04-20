@@ -11,7 +11,7 @@ async function getOrderData() {
 		_sum: { pricePaidInCents: true },
 	});
 
-	await wait(1000) // give time to db load
+	await wait(1000); // give time to db load
 
 	return {
 		totalAmount: (data._sum.pricePaidInCents || 0) / 100, //display amount in euros,
@@ -19,13 +19,46 @@ async function getOrderData() {
 	};
 }
 
-function wait (duration) {
-	return new Promise(resolve => setTimeout(resolve, duration));
+function wait(duration) {
+	return new Promise((resolve) => setTimeout(resolve, duration));
+}
+
+async function getCustomerData() {
+	const [userCount, orderData] = await Promise.all([
+		prisma.user.count(),
+		prisma.order.aggregate({
+			_sum: { pricePaidInCents: true },
+		}),
+	]);
+
+	return {
+		userCount,
+		averageValue:
+			userCount === 0
+				? 0
+				: (orderData._sum.pricePaidInCents || 0) / userCount / 100,
+	};
+}
+
+async function getProductData() {
+	const [productCount, productsActive] = await Promise.all([
+		prisma.product.count(),
+		prisma.product.count({
+			where: { isAvailable: true },
+		}),
+	]);
+
+	return { productCount, productsActive };
 }
 
 export default async function Admin() {
-	const sessionData = await getServerSession(authOptions);
-	const orderData = await getOrderData();
+	const [sessionData, orderData, customerData, productData] =
+		await Promise.all([
+			getServerSession(authOptions),
+			getOrderData(),
+			getCustomerData(),
+			getProductData(),
+		]);
 
 	return (
 		<div className={styles.adminPage}>
@@ -33,8 +66,30 @@ export default async function Admin() {
 			<div className={styles.cards}>
 				<AdminCard
 					title='Orders'
-					subtitle={formatNumber(orderData.totalOrders)}
-					body={formatCurrency(orderData.totalAmount)}
+					subtitle={`Total orders: ${formatNumber(
+						orderData.totalOrders,
+					)}`}
+					body={`Total amount: ${formatCurrency(
+						orderData.totalAmount,
+					)}`}
+				/>
+				<AdminCard
+					title='Customers'
+					subtitle={`Total customers: ${formatNumber(
+						customerData.userCount,
+					)}`}
+					body={`Average order value: ${formatCurrency(
+						customerData.averageValue,
+					)}`}
+				/>
+				<AdminCard
+					title='Products'
+					subtitle={`Total products: ${formatNumber(
+						productData.productCount,
+					)}`}
+					body={`Active products: ${formatNumber(
+						productData.productsActive,
+					)}`}
 				/>
 			</div>
 		</div>
