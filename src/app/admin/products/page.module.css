@@ -1,0 +1,26 @@
+.adminProductPage {
+    margin: 3rem;
+}
+
+.adminProductPageHeader{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.addProductButton{
+    border: none;
+    border-radius: 8px;
+}
+
+.addProductLink{
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: #09a809;
+    border-radius: 8px;
+}
+.addProductLink:hover{
+    background: #026402;
+}
