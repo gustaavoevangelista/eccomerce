@@ -18,9 +18,9 @@
     font-size: 1rem;
     font-weight: bold;
     color: #fff;
-    background: #09a809;
+    background: #ffa500;
     border-radius: 8px;
 }
 .addProductLink:hover{
-    background: #026402;
+    background: #b87802;
 }

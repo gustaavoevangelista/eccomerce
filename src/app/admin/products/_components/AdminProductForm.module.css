@@ -1,0 +1,54 @@
+.newProductForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid red;
+}
+
+.productFormField{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.productFormInput {
+    width: 100%;
+    border-radius: 8px;
+    padding: 0.5rem;
+    background: inherit;
+    font-size: 16px;
+}
+
+.productFormButtons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.productFormButtons button{
+    width: 7rem;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    
+}
+.productFormButtons button:nth-child(1) {
+    border: 1px solid #8b8985;
+}
+
+.productFormButtons button:nth-child(1):hover{
+    background: #dfdfdf;
+}
+.productFormButtons button:nth-child(2){
+    color: #fff;
+    background: #ffa500;
+}
+.productFormButtons button:nth-child(2):hover{
+    background: #b87802;
+}
+
