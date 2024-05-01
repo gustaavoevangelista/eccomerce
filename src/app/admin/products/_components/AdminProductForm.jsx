@@ -1,10 +1,30 @@
+'use client'
+
 import Link from "next/link";
 import styles from './AdminProductForm.module.css'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { adminProductSchema } from '../../../validation';
+import { useForm } from 'react-hook-form';
+
 
 
 export default function AdminProductForm() {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors, isValid, isSubmitting },
+	} = useForm({
+		resolver: yupResolver(adminProductSchema),
+	});
+
+	function formSubmit(data) {
+		console.log(data)
+	}
+
   return (
-		<form className={styles.newProductForm}>
+		<form
+			onSubmit={handleSubmit(formSubmit)}
+			className={styles.newProductForm}>
 			<div className={styles.productFormField}>
 				<label htmlFor='name'>Name </label>
 				<input
@@ -13,7 +33,13 @@ export default function AdminProductForm() {
 					name='name'
 					placeholder='Enter product name'
 					className={styles.productFormInput}
+					{...register('name')}
 				/>
+				{errors && (
+					<span className={styles.errorMessage}>
+						{errors.name?.message}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.productFormField}>
@@ -23,7 +49,13 @@ export default function AdminProductForm() {
 					name='description'
 					rows={4}
 					className={styles.productFormInput}
+					{...register('description')}
 				/>
+				{errors && (
+					<span className={styles.errorMessage}>
+						{errors.description?.message}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.productFormField}>
@@ -33,7 +65,13 @@ export default function AdminProductForm() {
 					id='price'
 					name='price'
 					className={styles.productFormInput}
+					{...register('price')}
 				/>
+				{errors && (
+					<span className={styles.errorMessage}>
+						{errors.price?.message}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.productFormField}>
@@ -41,7 +79,19 @@ export default function AdminProductForm() {
 				<select
 					id='category'
 					name='category'
-					className={styles.productFormInput}></select>
+					className={styles.productFormInput}
+					{...register('category')}>
+					<option default>Select a category</option>
+					<option value='pet'>Pet</option>
+					<option value='beauty'>Beauty</option>
+					<option value='home'>Home</option>
+					
+				</select>
+				{errors && (
+					<span className={styles.errorMessage}>
+						{errors.category?.message}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.productFormField}>
@@ -51,7 +101,13 @@ export default function AdminProductForm() {
 					name='images'
 					id='images'
 					className={styles.productFormInput}
+					{...register('images')}
 				/>
+				{errors && (
+					<span className={styles.errorMessage}>
+						{errors.images?.message}
+					</span>
+				)}
 			</div>
 
 			<div className={styles.productFormButtons}>
