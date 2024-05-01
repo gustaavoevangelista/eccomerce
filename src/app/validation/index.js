@@ -33,3 +33,20 @@ export const loginRequestSchema = yup
 			.required('Password is required'),
 	})
 	.required();
+
+export const adminProductSchema = yup
+	.object()
+	.shape({
+		name: yup
+			.string()
+			.min(2, 'Name must be at least 2 characters')
+			.required('Name is required'),
+		description: yup.string().required('Description is required'),
+		price: yup
+			.number()
+			.positive('Price cannot be negative or zero')
+			.required('Price is required'),
+		category: yup.required('Category is required'),
+		images: yup.mixed().required('Images are required'),
+	})
+	.required();
