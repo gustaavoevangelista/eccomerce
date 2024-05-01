@@ -26,7 +26,7 @@ model Product {
   id           String  @id @default(uuid())
   name         String
   description  String
-  priceInEuros Float
+  priceInCents Float
   isAvailable  Boolean @default(false)
   filePath               String
   imagePath              String
