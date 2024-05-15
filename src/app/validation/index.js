@@ -52,15 +52,8 @@ export const adminProductSchema = yup
 			.required('Category is required'),
 		images: yup
 			.mixed()
-			.test('required', 'You need to provide a file', (file) => {
-				// return file && file.size <-- u can use this if you don't want to allow empty files to be uploaded;
-				if (file && file.size) return true;
-				return false;
+			.test('required', 'You need to provide a file', function (value) {
+				return value.length > 0;
 			})
-			.test('fileSize', 'The file is too large', (file) => {
-				//if u want to allow only certain file sizes
-				return file && file.size <= 2000000;
-			})
-			.required('Images are required'),
 	})
 	.required();
