@@ -1,12 +1,11 @@
-'use client'
+'use client';
 
-import Link from "next/link";
-import styles from './AdminProductForm.module.css'
-import { yupResolver } from '@hookform/resolvers/yup';
+import Link from 'next/link';
+import styles from './AdminProductForm.module.css';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { adminProductSchema } from '../../../validation';
 import { useForm } from 'react-hook-form';
-
-
+import { addProduct } from '../../_actions/products';
 
 export default function AdminProductForm() {
 	const {
@@ -14,14 +13,33 @@ export default function AdminProductForm() {
 		handleSubmit,
 		formState: { errors, isValid, isSubmitting },
 	} = useForm({
-		resolver: yupResolver(adminProductSchema),
+		resolver: zodResolver(adminProductSchema),
 	});
 
-	function formSubmit(data) {
-		console.log(data)
-	}
+	const formSubmit = async (data) => {
+		const formData = new FormData();
 
-  return (
+		Object.keys(data).forEach((key) => {
+			if (key === 'images' && data[key].length > 0) {
+				Array.from(data[key]).forEach((file) =>
+					formData.append(key, file),
+				); // Append each file separately
+			} else {
+				formData.append(key, data[key]);
+			}
+		});
+
+		// console.log(formData)
+
+		for (let [key, value] of formData.entries()) {
+			console.log(key, value);
+		}
+
+		await addProduct(formData);
+	};
+
+
+	return (
 		<form
 			onSubmit={handleSubmit(formSubmit)}
 			className={styles.newProductForm}>
@@ -59,17 +77,17 @@ export default function AdminProductForm() {
 			</div>
 
 			<div className={styles.productFormField}>
-				<label htmlFor='price'>Price</label>
+				<label htmlFor='priceInCents'>Price In Cents</label>
 				<input
 					type='number'
-					id='price'
-					name='price'
+					id='priceInCents'
+					name='priceInCents'
 					className={styles.productFormInput}
-					{...register('price')}
+					{...register('priceInCents')}
 				/>
 				{errors && (
 					<span className={styles.errorMessage}>
-						{errors.price?.message}
+						{errors.priceInCents?.message}
 					</span>
 				)}
 			</div>
@@ -81,11 +99,11 @@ export default function AdminProductForm() {
 					name='category'
 					className={styles.productFormInput}
 					{...register('category')}>
+						{}
 					<option default>Select a category</option>
 					<option value='pet'>Pet</option>
 					<option value='beauty'>Beauty</option>
 					<option value='home'>Home</option>
-					
 				</select>
 				{errors && (
 					<span className={styles.errorMessage}>
@@ -102,6 +120,7 @@ export default function AdminProductForm() {
 					id='images'
 					className={styles.productFormInput}
 					{...register('images')}
+					multiple
 				/>
 				{errors && (
 					<span className={styles.errorMessage}>
@@ -115,8 +134,10 @@ export default function AdminProductForm() {
 					<Link href='./'>BACK</Link>
 				</button>
 
-				<button type='submit'>SAVE</button>
+				<button type='submit' disabled={isSubmitting}>
+					SAVE
+				</button>
 			</div>
 		</form>
-  );
+	);
 }
