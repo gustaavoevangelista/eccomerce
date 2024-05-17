@@ -24,15 +24,14 @@ model User {
 
 model Product {
   id           String  @id @default(uuid())
-  name         String
+  name         String @unique
   description  String
-  priceInCents Float
+  priceInCents Int
   isAvailable  Boolean @default(false)
-  filePath               String
-  imagePath              String
+  imagePath    String
 
   category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  order    Order[]
+  orders Order[]
 
   categoryId String
 
