@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { z } from 'zod';
 
 export const signupRequestSchema = yup
 	.object()
@@ -34,26 +35,21 @@ export const loginRequestSchema = yup
 	})
 	.required();
 
-export const adminProductSchema = yup
-	.object()
-	.shape({
-		name: yup
-			.string()
-			.min(2, 'Name must be at least 2 characters')
-			.required('Name is required'),
-		description: yup.string().required('Description is required'),
-		price: yup
-			.number()
-			.positive('Price cannot be negative or zero')
-			.required('Price is required'),
-		category: yup
-			.string()
-			.oneOf(['pet', 'beauty', 'home'])
-			.required('Category is required'),
-		images: yup
-			.mixed()
-			.test('required', 'You need to provide a file', function (value) {
-				return value.length > 0;
-			})
-	})
-	.required();
+const ACCEPTED_IMAGE_TYPES = [
+	'image/jpeg',
+	'image/jpg',
+	'image/png',
+	'image/webp',
+];
+
+export const adminProductSchema = z.object({
+	name: z.string().min(2, 'Name must be at least 2 characters'),
+	description: z.string().min(2, 'Description must be at least 2 characters'),
+	priceInCents: z.coerce.number().int().min(1, 'Price must be greater than 0'),
+	category: z.enum(['pet', 'beauty', 'home'], {
+		message: 'Choose one of the categories: Pet, Beauty, Home',
+	}),
+	images: z.any()
+    .refine((files) => files?.length !== 0, "Image is required.")
+		
+});
