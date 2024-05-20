@@ -1,5 +1,5 @@
 'use server';
-import  prisma  from '@/db';
+import prisma from '@/db';
 // import bcrypt from 'bcryptjs';
 
 // export async function createUser(email, password) {
@@ -35,30 +35,38 @@ export async function findUser(email) {
 }
 
 export async function createProduct(formData, imagePath) {
-
 	try {
+		const category = await prisma.category.findFirst({
+			where: { name: formData.category },
+			select: { id: true },
+		});
+
+		if (!category) {
+			throw new Error('Category not found');
+		}
+
+		const categoryId = category.id;
+
 		const product = await prisma.product.create({
 			data: {
 				isAvailable: false,
 				name: formData.name,
 				description: formData.description,
 				priceInCents: formData.priceInCents,
-				category: formData.category,
+				category: { connect: { id: categoryId } },
 				imagePath,
 			},
 		});
 
-		console.log("Product created successfully!")
+		console.log('Product created successfully!');
 		return product;
-		
 	} catch (error) {
 		console.error('Error creating product:', error);
 		return null;
 	}
-
 }
 
-export async function getCategories(){
+export async function getCategories() {
 	const categories = await prisma.category.findMany();
 	return categories;
 }

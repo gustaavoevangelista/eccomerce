@@ -32,19 +32,8 @@ export async function addProduct(formData) {
 
 	await createProduct({ ...data }, imagePath);
 
-	// await prisma.product.create({
-	// 	data: {
-	// 		isAvailable: false,
-	// 		name: data.name,
-	// 		description: data.description,
-	// 		priceInCents: data.priceInCents,
-	// 		// category: data.category,
-	// 		imagePath: imagePath,
-	// 	},
-	// });
-
 	revalidatePath('/');
 	revalidatePath('/products');
 
-	// redirect('/admin/products');
+	redirect('/admin/products');
 }
