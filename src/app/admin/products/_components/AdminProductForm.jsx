@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { adminProductSchema } from '../../../validation';
 import { useForm } from 'react-hook-form';
 import { addProduct } from '../../_actions/products';
+import { useEffect, useState } from 'react';
 
 export default function AdminProductForm() {
 	const {
@@ -15,6 +16,26 @@ export default function AdminProductForm() {
 	} = useForm({
 		resolver: zodResolver(adminProductSchema),
 	});
+
+	const [categories, setCategories] = useState([]);
+
+	useEffect(() => {
+		async function fetchCategories() {
+			try {
+				const response = await fetch('/api/categories');
+				const data = await response.json();
+				// console.log(data)
+				setCategories(data);
+				// console.log(categories)
+
+			} catch (error) {
+				console.error('Failed to fetch categories:', error);
+				setCategories([]);
+			}
+		}
+
+		fetchCategories();
+	}, []);
 
 	const formSubmit = async (data) => {
 		const formData = new FormData();
@@ -29,15 +50,13 @@ export default function AdminProductForm() {
 			}
 		});
 
-		// console.log(formData)
-
+		//console.log
 		for (let [key, value] of formData.entries()) {
 			console.log(key, value);
 		}
 
 		await addProduct(formData);
 	};
-
 
 	return (
 		<form
@@ -99,11 +118,12 @@ export default function AdminProductForm() {
 					name='category'
 					className={styles.productFormInput}
 					{...register('category')}>
-						{}
 					<option default>Select a category</option>
-					<option value='pet'>Pet</option>
-					<option value='beauty'>Beauty</option>
-					<option value='home'>Home</option>
+					{categories.map((category) => (
+						<option key={category.id} value={category.name}>
+							{category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+						</option>
+					))}
 				</select>
 				{errors && (
 					<span className={styles.errorMessage}>
