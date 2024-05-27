@@ -13,3 +13,8 @@ const NUMBER_FORMATTER = new Intl.NumberFormat("en-US")
 export function formatNumber(number) {
     return  NUMBER_FORMATTER.format(number);
 }
+
+
+export function formatCategoryName(name){
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}

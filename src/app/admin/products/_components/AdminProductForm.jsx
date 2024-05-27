@@ -7,6 +7,7 @@ import { adminProductSchema } from '../../../validation';
 import { useForm } from 'react-hook-form';
 import { addProduct } from '../../_actions/products';
 import { useEffect, useState } from 'react';
+import { formatCategoryName } from '@/app/lib/formatters';
 
 export default function AdminProductForm() {
 	const {
@@ -24,9 +25,7 @@ export default function AdminProductForm() {
 			try {
 				const response = await fetch('/api/categories');
 				const data = await response.json();
-				// console.log(data)
 				setCategories(data);
-				// console.log(categories)
 
 			} catch (error) {
 				console.error('Failed to fetch categories:', error);
@@ -121,7 +120,7 @@ export default function AdminProductForm() {
 					<option default>Select a category</option>
 					{categories.map((category) => (
 						<option key={category.id} value={category.name}>
-							{category.name.charAt(0).toUpperCase() + category.name.slice(1)}
+							{formatCategoryName(category.name)}
 						</option>
 					))}
 				</select>
