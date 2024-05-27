@@ -1,27 +1,16 @@
-import prisma from "@/db";
-import styles from "./page.module.css"
-import { DataGrid } from '@mui/x-data-grid';
+import styles from './page.module.css';
+import ProductsTable from './_components/ProductsTable';
+import { getProducts } from '@/app/api/dbFunctions/user/db';
 
-const products = await prisma.product.findMany();
+async function fetchProducts(){
+	const products = await getProducts();
+	return products
+}
 
-const rows = products.map((product) => ({
-	id: product.id,
-	image: 'devolver imagem',
-	name: product.name,
-	isAvailable: product.isAvailable,
-	price: product.priceInCents,
-	category: product.categoryId,
-}));
-
-const columns = [
-	{ field: 'image', headerName: 'Image', width: 100 },
-	{ field: 'name', headerName: 'Name', width: 150 },
-	{ field: 'isAvailable', headerName: 'Active', width: 100 },
-	{ field: 'price', headerName: 'Price', width: 150 },
-	{ field: 'category', headerName: 'Category', width: 150 },
-];
 
 export default async function AdminProductsPage() {
+	const products = await fetchProducts();
+
 	return (
 		<div className={styles.adminProductPage}>
 			<div className={styles.adminProductPageHeader}>
@@ -36,18 +25,7 @@ export default async function AdminProductsPage() {
 			</div>
 
 			<div style={{ width: '100%' }}>
-				<DataGrid
-					rows={rows}
-					columns={columns}
-					initialState={{
-						pagination: {
-							paginationModel: { page: 0, pageSize: 5 },
-						},
-					}}
-					pageSizeOptions={[5, 10, 15, 20]}
-					checkboxSelection
-					autoHeight
-				/>
+				<ProductsTable products={products}/>
 			</div>
 		</div>
 	);

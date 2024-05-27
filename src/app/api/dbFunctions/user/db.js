@@ -73,3 +73,8 @@ export async function getCategories() {
 	const categories = await prisma.category.findMany();
 	return categories;
 }
+
+ export async function getProducts() {
+		const products = await prisma.product.findMany();
+		return products;
+ }
