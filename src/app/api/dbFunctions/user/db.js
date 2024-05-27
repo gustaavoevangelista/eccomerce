@@ -38,7 +38,9 @@ export async function createProduct(formData, imagePath) {
 	try {
 		const category = await prisma.category.findFirst({
 			where: { name: formData.category },
-			select: { id: true },
+			select: {
+				name: true,
+			},
 		});
 
 		if (!category) {
@@ -46,6 +48,7 @@ export async function createProduct(formData, imagePath) {
 		}
 
 		const categoryId = category.id;
+		const categoryName = category.name;
 
 		const product = await prisma.product.create({
 			data: {
@@ -53,7 +56,7 @@ export async function createProduct(formData, imagePath) {
 				name: formData.name,
 				description: formData.description,
 				priceInCents: formData.priceInCents,
-				category: { connect: { id: categoryId } },
+				category: { connect: { id: categoryId, name: categoryName } },
 				imagePath,
 			},
 		});
